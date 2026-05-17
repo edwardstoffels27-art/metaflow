@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MetaFlow | Metabolic & Cognitive Enhancer</title>
+    <meta
+      name="description"
+      content="MetaFlow supports metabolic flexibility, clean energy, and sharper cognitive performance with a premium bio-tech formula backed by a 60-day guarantee."
+    />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:title" content="MetaFlow | Flip the Metabolic Switch" />
+    <meta
+      property="og:description"
+      content="Stop fighting brain fog and fatigue. Support cellular energy and mental clarity with MetaFlow."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/images/metaflow-bottles.jpeg" />
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+    <link rel="preconnect" href="https://unpkg.com" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              midnight: "#0F172A",
+              cyanx: "#22D3EE",
+              slateclean: "#F8FAFC"
+            },
+            boxShadow: {
+              glow: "0 0 36px rgba(34, 211, 238, 0.28)"
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.4); }
+        50% { box-shadow: 0 0 60px rgba(239, 68, 68, 0.7); }
+      }
+
+      .animate-pulse {
+        animation: pulse-glow 3s ease-in-out infinite;
+      }
+    </style>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  </head>
+  <body
+    class="bg-slateclean text-midnight antialiased"
+    x-data="{
+      remaining: (2 * 60 * 60) + (17 * 60) + 34,
+      showProof: false,
+      proofIndex: 0,
+      proofItems: [
+        'Maya from Austin claimed the 5-bottle bundle',
+        'Daniel from Seattle secured special MetaFlow pricing',
+        'Priya from Miami secured free shipping',
+        'Chris from Denver started a 90-day supply'
+      ],
+      lead: { name: '', email: '' },
+      leadStatus: 'idle',
+      leadMessage: '',
+      formatTime() {
+        const h = String(Math.floor(this.remaining / 3600)).padStart(2, '0');
+        const m = String(Math.floor((this.remaining % 3600) / 60)).padStart(2, '0');
+        const s = String(this.remaining % 60).padStart(2, '0');
+        return `${h}:${m}:${s}`;
+      },
+      async submitLead() {
+        this.leadStatus = 'loading';
+        this.leadMessage = '';
+        try {
+          const response = await fetch('/api/lead', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.lead)
+          });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error || 'Unable to send confirmation right now.');
+          this.leadStatus = 'success';
+          this.leadMessage = 'Check your inbox. Your MetaFlow confirmation email is on its way.';
+          this.lead = { name: '', email: '' };
+        } catch (error) {
+          this.leadStatus = 'error';
+          this.leadMessage = error.message || 'Something went wrong. Please try again.';
+        }
+      }
+    }"
+    x-init="
+      setInterval(() => { remaining = remaining > 0 ? remaining - 1 : 0 }, 1000);
+      setTimeout(() => { showProof = true }, 3000);
+      setInterval(() => {
+        showProof = false;
+        setTimeout(() => {
+          proofIndex = (proofIndex + 1) % proofItems.length;
+          showProof = true;
+        }, 700);
+      }, 8500);
+    "
+  >
+    <a href="#pricing" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-cyanx focus:px-4 focus:py-3 focus:font-bold focus:text-midnight">
+      Skip to offer
+    </a>
+
+    <div class="bg-cyanx px-4 py-2 text-center text-sm font-black uppercase tracking-wide text-midnight">
+      FLASH SALE: Special Pricing Today Only - Stock is Extremely Limited.
+      <span class="ml-2 inline-flex rounded-full bg-midnight px-3 py-1 text-xs text-white" aria-live="polite">
+        Ends in <span class="ml-1" x-text="formatTime()">02:17:34</span>
+      </span>
+    </div>
+
+    <header class="sticky top-0 z-40 border-b border-white/10 bg-midnight/95 text-white backdrop-blur">
+      <nav class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8" aria-label="Primary navigation">
+        <a href="#top" class="flex items-center gap-2 text-lg font-black tracking-wide" aria-label="MetaFlow home">
+          <span class="flex h-9 w-9 items-center justify-center rounded-full bg-cyanx text-midnight shadow-glow">M</span>
+          <span>MetaFlow</span>
+        </a>
+        <div class="hidden items-center gap-2 rounded-full border border-cyanx/30 bg-white/5 px-4 py-2 text-sm font-bold text-cyanx sm:flex">
+          <span class="h-2.5 w-2.5 rounded-full bg-cyanx shadow-glow"></span>
+          Limited Supply
+        </div>
+        <a href="https://l1nq.com/nrnyrkw" target="_blank" rel="sponsored noopener" class="inline-flex min-h-12 items-center justify-center rounded-full border border-cyanx px-5 text-sm font-black text-cyanx transition hover:bg-cyanx hover:text-midnight focus:outline-none focus:ring-4 focus:ring-cyanx/40">
+          Buy Now
+        </a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="relative overflow-hidden bg-midnight text-white">
+        <div class="absolute inset-0 opacity-20">
+          <img
+            src="assets/images/email-banner-hero.jpeg"
+            alt=""
+            class="h-full w-full object-cover"
+            loading="eager"
+          />
+        </div>
+        <div class="relative mx-auto grid min-h-[calc(100vh-104px)] max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:py-20">
+          <div>
+            <p class="mb-5 inline-flex rounded-full border border-cyanx/40 bg-cyanx/10 px-4 py-2 text-sm font-black uppercase tracking-wide text-cyanx">
+              Metabolic & Cognitive Enhancer
+            </p>
+            <h1 class="max-w-4xl text-5xl font-black leading-[1.02] tracking-normal sm:text-6xl lg:text-7xl">
+              Flip the "Metabolic Switch" for Unstoppable Mental Clarity.
+            </h1>
+            <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-200 sm:text-xl">
+              Stop fighting brain fog and fatigue. MetaFlow targets cellular energy pathways to support 24/7 peak performance, cleaner focus, and a body that feels switched back on.
+            </p>
+            <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+              <a href="https://l1nq.com/nrnyrkw" target="_blank" rel="sponsored noopener" class="inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-cyanx px-8 text-base font-black text-midnight shadow-glow transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus:ring-4 focus:ring-cyanx/40 motion-safe:animate-pulse">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6v-9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Claim Your Discounted Bottle
+              </a>
+              <p class="text-sm font-black uppercase text-slate-300">60-DAY MONEY BACK GUARANTEE</p>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="rounded-[2rem] border border-white/10 bg-white/10 p-3 shadow-2xl backdrop-blur">
+              <img
+                src="assets/images/metaflow-bottles.jpeg"
+                alt="MetaFlow supplement bottles"
+                class="aspect-[4/5] w-full rounded-[1.5rem] object-cover"
+              />
+            </div>
+            <div class="absolute -bottom-6 left-4 right-4 rounded-2xl border border-cyanx/30 bg-midnight p-5 shadow-glow sm:left-auto sm:right-6 sm:w-72">
+              <p class="text-sm font-bold text-cyanx">Live Stock Monitor</p>
+              <p class="mt-1 text-2xl font-black">Selling fast today</p>
+              <div class="mt-4 h-2 rounded-full bg-white/10">
+                <div class="h-2 w-[22%] rounded-full bg-cyanx"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="trust-title" class="bg-white py-14">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 id="trust-title" class="text-center text-sm font-black uppercase tracking-wide text-slate-500">Featured In</h2>
+          <div class="mt-8 grid grid-cols-1 gap-4 text-center text-2xl font-black text-slate-400 sm:grid-cols-3">
+            <div class="rounded-lg border border-slate-200 px-6 py-5 grayscale">HealthLine</div>
+            <div class="rounded-lg border border-slate-200 px-6 py-5 grayscale">Forbes Health</div>
+            <div class="rounded-lg border border-slate-200 px-6 py-5 grayscale">BioHack Weekly</div>
+          </div>
+          <div class="mt-10 grid gap-4 sm:grid-cols-3">
+            <div class="rounded-lg bg-slateclean p-6 text-center">
+              <p class="text-4xl font-black text-midnight">98%</p>
+              <p class="mt-2 font-bold text-slate-600">Success Rate</p>
+            </div>
+            <div class="rounded-lg bg-slateclean p-6 text-center">
+              <p class="text-2xl font-black text-midnight">60-DAY MONEY BACK GUARANTEE</p>
+            </div>
+            <div class="rounded-lg bg-slateclean p-6 text-center">
+              <p class="text-4xl font-black text-midnight">3rd</p>
+              <p class="mt-2 font-bold text-slate-600">Party Lab Tested</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-20" aria-labelledby="problem-title">
+        <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+          <div>
+            <p class="text-sm font-black uppercase tracking-wide text-cyan-600">The Hidden Enemy</p>
+            <h2 id="problem-title" class="mt-3 text-4xl font-black tracking-normal sm:text-5xl">Why 9am coffee isn't enough anymore.</h2>
+            <p class="mt-6 text-lg leading-8 text-slate-700">
+              Metabolic inflexibility can leave high-performers running on borrowed energy. MetaFlow is designed to support the cellular processes that help your brain and body access cleaner fuel.
+            </p>
+            <ul class="mt-8 space-y-4 text-slate-700">
+              <li class="flex gap-3"><span class="mt-1 h-6 w-6 shrink-0 rounded-full bg-cyanx"></span><span><strong>3pm crashes</strong> that derail your deepest work.</span></li>
+              <li class="flex gap-3"><span class="mt-1 h-6 w-6 shrink-0 rounded-full bg-cyanx"></span><span><strong>Forgetfulness</strong> when your schedule demands precision.</span></li>
+              <li class="flex gap-3"><span class="mt-1 h-6 w-6 shrink-0 rounded-full bg-cyanx"></span><span><strong>Stubborn midsection weight</strong> that does not match your effort.</span></li>
+            </ul>
+          </div>
+          <div class="rounded-[2rem] bg-midnight p-4 shadow-2xl">
+            <img
+              src="assets/images/ingredient-flatlay.jpeg"
+              alt="MetaFlow ingredient flatlay"
+              class="aspect-[5/4] w-full rounded-[1.5rem] object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-midnight py-20 text-white" aria-labelledby="solution-title">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="max-w-3xl">
+            <p class="text-sm font-black uppercase tracking-wide text-cyanx">The MetaFlow Difference</p>
+            <h2 id="solution-title" class="mt-3 text-4xl font-black tracking-normal sm:text-5xl">Built for clear thinking, steady energy, and sharper mornings.</h2>
+          </div>
+          <div class="mt-12 grid gap-5 md:grid-cols-3">
+            <article class="group rounded-lg border border-white/10 bg-white/5 p-7 transition hover:-translate-y-1 hover:border-cyanx hover:bg-white/10">
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-cyanx text-midnight">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v18M4 12h16M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+              </div>
+              <h3 class="mt-6 text-2xl font-black">Neuro-Sync Technology</h3>
+              <p class="mt-4 leading-7 text-slate-300">Supports direct cognitive alignment so your attention feels locked in when the day gets noisy.</p>
+            </article>
+            <article class="group rounded-lg border border-white/10 bg-white/5 p-7 transition hover:-translate-y-1 hover:border-cyanx hover:bg-white/10">
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-cyanx text-midnight">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 10-13h-7l1-7Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+              </div>
+              <h3 class="mt-6 text-2xl font-black">Metabolic Fire</h3>
+              <p class="mt-4 leading-7 text-slate-300">Promotes sustainable energy without the jittery spike-and-crash cycle of another oversized coffee.</p>
+            </article>
+            <article class="group rounded-lg border border-white/10 bg-white/5 p-7 transition hover:-translate-y-1 hover:border-cyanx hover:bg-white/10">
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-cyanx text-midnight">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+              </div>
+              <h3 class="mt-6 text-2xl font-black">Circadian Optimization</h3>
+              <p class="mt-4 leading-7 text-slate-300">Helps your rhythm feel more predictable: better sleep windows, cleaner wakeups, sharper mornings.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-20" aria-labelledby="proof-title">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+            <div>
+              <p class="text-sm font-black uppercase tracking-wide text-cyan-600">Social Proof</p>
+              <h2 id="proof-title" class="mt-3 text-4xl font-black tracking-normal sm:text-5xl">Wall of Love</h2>
+            </div>
+            <p class="max-w-xl text-lg leading-8 text-slate-700">Real-world "Day 1 vs Day 30" results from focused professionals, founders, and biohackers.</p>
+          </div>
+          <div class="mt-12 grid gap-5 md:grid-cols-3">
+            <article class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+              <p class="text-cyan-600" aria-label="5 out of 5 stars">★★★★★</p>
+              <p class="mt-4 text-lg font-bold">Day 1: scattered. Day 30: I could hold deep focus through my entire strategy block.</p>
+              <p class="mt-5 text-sm font-black text-slate-500">Maya R., Product Lead</p>
+            </article>
+            <article class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+              <p class="text-cyan-600" aria-label="5 out of 5 stars">★★★★★</p>
+              <p class="mt-4 text-lg font-bold">The afternoon crash used to own me. MetaFlow made my energy feel calmer and more reliable.</p>
+              <p class="mt-5 text-sm font-black text-slate-500">Derek S., Founder</p>
+            </article>
+            <article class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+              <p class="text-cyan-600" aria-label="5 out of 5 stars">★★★★★</p>
+              <p class="mt-4 text-lg font-bold">By week four, mornings felt lighter. Less fog, fewer cravings, more command of my day.</p>
+              <p class="mt-5 text-sm font-black text-slate-500">Alina K., Analyst</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-midnight py-20 text-white" aria-labelledby="video-proof-title">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+            <div>
+              <p class="text-sm font-black uppercase tracking-wide text-cyanx">Video Proof</p>
+              <h2 id="video-proof-title" class="mt-3 text-4xl font-black tracking-normal sm:text-5xl">See why people are switching to MetaFlow.</h2>
+              <p class="mt-5 text-lg leading-8 text-slate-300">
+                Short testimonial and education clips help visitors move from curiosity to confidence before they choose their supply.
+              </p>
+              <a href="https://l1nq.com/nrnyrkw" target="_blank" rel="sponsored noopener" class="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-cyanx px-7 font-black text-midnight shadow-glow transition hover:bg-white">
+                Watch, Then Claim Discount
+              </a>
+            </div>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <article class="rounded-lg border border-white/10 bg-white/5 p-3">
+                <video class="aspect-video w-full rounded-md bg-black object-cover" controls preload="metadata" poster="assets/images/youtube-thumbnail.jpeg">
+                  <source src="assets/videos/patty-testimonial.mp4" type="video/mp4" />
+                </video>
+                <h3 class="mt-4 px-2 text-lg font-black">Real User Momentum</h3>
+                <p class="px-2 pb-2 text-sm leading-6 text-slate-300">A fast, human proof point for visitors who need to hear the outcome in plain language.</p>
+              </article>
+              <article class="rounded-lg border border-white/10 bg-white/5 p-3">
+                <video class="aspect-video w-full rounded-md bg-black object-cover" controls preload="metadata" poster="assets/images/native-ad-thumbnail.jpeg">
+                  <source src="assets/videos/rand-hoffkin-testimonial.mp4" type="video/mp4" />
+                </video>
+                <h3 class="mt-4 px-2 text-lg font-black">Customer Perspective</h3>
+                <p class="px-2 pb-2 text-sm leading-6 text-slate-300">Compact social proof that reinforces trust close to the buying decision.</p>
+              </article>
+              <article class="rounded-lg border border-white/10 bg-white/5 p-3 sm:col-span-2">
+                <video class="aspect-video w-full rounded-md bg-black object-cover" controls preload="metadata" poster="assets/images/before-after.jpeg">
+                  <source src="assets/videos/toxic-lipid.mp4" type="video/mp4" />
+                </video>
+                <h3 class="mt-4 px-2 text-lg font-black">The Science Hook</h3>
+                <p class="px-2 pb-2 text-sm leading-6 text-slate-300">A stronger educational clip for visitors who want the "why" behind metabolic sluggishness.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white py-16" aria-labelledby="image-proof-title">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+            <div>
+              <p class="text-sm font-black uppercase tracking-wide text-cyan-600">Product Proof</p>
+              <h2 id="image-proof-title" class="mt-3 text-3xl font-black tracking-normal sm:text-4xl">MetaFlow in real routines.</h2>
+            </div>
+            <a href="https://l1nq.com/nrnyrkw" target="_blank" rel="sponsored noopener" class="inline-flex min-h-12 items-center justify-center rounded-full border border-midnight px-6 font-black transition hover:bg-midnight hover:text-white">
+              Get MetaFlow Today
+            </a>
+          </div>
+          <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <img src="assets/images/morning-ritual.jpeg" alt="MetaFlow morning routine" class="aspect-[4/5] w-full rounded-lg object-cover" loading="lazy" />
+            <img src="assets/images/kitchen-lifestyle.jpeg" alt="MetaFlow in a kitchen lifestyle setting" class="aspect-[4/5] w-full rounded-lg object-cover" loading="lazy" />
+            <img src="assets/images/refrigerator-inside.jpeg" alt="MetaFlow bottle stored in a refrigerator" class="aspect-[4/5] w-full rounded-lg object-cover" loading="lazy" />
+            <img src="assets/images/advertorial-hero.jpeg" alt="MetaFlow advertorial product image" class="aspect-[4/5] w-full rounded-lg object-cover" loading="lazy" />
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-slateclean py-20" aria-labelledby="email-title">
+        <div class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:px-8">
+          <div>
+            <p class="text-sm font-black uppercase tracking-wide text-cyan-600">Inbox Confirmation</p>
+            <h2 id="email-title" class="mt-3 text-4xl font-black tracking-normal sm:text-5xl">Get the MetaFlow discount sent to your inbox.</h2>
+            <p class="mt-5 text-lg leading-8 text-slate-700">
+              Enter your best email and we will send the confirmation link, today's discount reminder, and the quick-start notes that help you evaluate MetaFlow with confidence.
+            </p>
+            <div class="mt-8 grid gap-4 sm:grid-cols-3">
+              <div class="rounded-lg bg-white p-5 shadow-sm">
+                <p class="text-2xl font-black text-midnight">01</p>
+                <p class="mt-2 text-sm font-bold text-slate-600">Instant confirmation</p>
+              </div>
+              <div class="rounded-lg bg-white p-5 shadow-sm">
+                <p class="text-2xl font-black text-midnight">02</p>
+                <p class="mt-2 text-sm font-bold text-slate-600">Discount link saved</p>
+              </div>
+              <div class="rounded-lg bg-white p-5 shadow-sm">
+                <p class="text-2xl font-black text-midnight">03</p>
+                <p class="mt-2 text-sm font-bold text-slate-600">Follow-up ready</p>
+              </div>
+            </div>
+          </div>
+          <form class="rounded-lg border border-slate-200 bg-white p-6 shadow-xl sm:p-8" @submit.prevent="submitLead">
+            <h3 class="text-2xl font-black">Send My Confirmation</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-600">No spam. Just the MetaFlow offer link and follow-up information connected to this page.</p>
+            <div class="mt-6 space-y-4">
+              <label class="block">
+                <span class="text-sm font-black text-slate-700">First name</span>
+                <input
+                  class="mt-2 min-h-12 w-full rounded-lg border border-slate-300 px-4 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100"
+                  type="text"
+                  name="name"
+                  autocomplete="given-name"
+                  placeholder="Edward"
+                  x-model.trim="lead.name"
+                />
+              </label>
+              <label class="block">
+                <span class="text-sm font-black text-slate-700">Email address</span>
+                <input
+                  class="mt-2 min-h-12 w-full rounded-lg border border-slate-300 px-4 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100"
+                  type="email"
+                  name="email"
+                  autocomplete="email"
+                  placeholder="you@example.com"
+                  required
+                  x-model.trim="lead.email"
+                />
+              </label>
+              <button
+                type="submit"
+                class="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-midnight px-6 font-black text-white transition hover:bg-cyanx hover:text-midnight disabled:cursor-not-allowed disabled:opacity-60"
+                :disabled="leadStatus === 'loading'"
+              >
+                <span x-show="leadStatus !== 'loading'">Email My Discount Link</span>
+                <span x-show="leadStatus === 'loading'">Sending...</span>
+              </button>
+              <p
+                class="text-sm font-bold"
+                :class="leadStatus === 'success' ? 'text-emerald-700' : 'text-red-700'"
+                x-show="leadMessage"
+                x-text="leadMessage"
+                aria-live="polite"
+              ></p>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="pricing" class="bg-white py-20" aria-labelledby="offer-title">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="mx-auto max-w-3xl text-center">
+            <p class="text-sm font-black uppercase tracking-wide text-cyan-600">No-Brainer Offer</p>
+            <h2 id="offer-title" class="mt-3 text-4xl font-black tracking-normal sm:text-5xl">Choose your MetaFlow supply.</h2>
+            <p class="mt-5 text-lg leading-8 text-slate-700">Save today. All orders are protected by the 60-day money-back guarantee.</p>
+          </div>
+
+          <div class="mt-12 grid gap-6 lg:grid-cols-3">
+            <article class="rounded-lg border border-slate-200 p-7">
+              <h3 class="text-2xl font-black">Starter</h3>
+              <p class="mt-2 text-slate-600">2 bottles total</p>
+              <p class="mt-6 text-5xl font-black">$79<span class="text-lg text-slate-500">/bottle</span></p>
+              <p class="mt-3 font-bold text-slate-700">$158 total</p>
+              <p class="mt-1 text-sm font-bold text-slate-500">+ $19.99 shipping</p>
+              <a href="https://l1nq.com/nrnyrkw" target="_blank" rel="sponsored noopener" class="mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-full border border-midnight px-5 font-black transition hover:bg-midnight hover:text-white">Select Starter</a>
+            </article>
+            <article class="relative rounded-lg border-2 border-cyanx bg-midnight p-7 text-white shadow-glow">
+              <div class="absolute right-5 top-5 rounded-full bg-cyanx px-4 py-2 text-xs font-black uppercase tracking-wide text-midnight">Most Popular</div>
+              <h3 class="pr-32 text-2xl font-black">Best Value</h3>
+              <p class="mt-2 text-slate-300">Best value supply</p>
+              <p class="mt-1 text-slate-300">5 bottles total</p>
+              <p class="mt-6 text-5xl font-black">$49<span class="text-lg text-slate-300">/bottle</span></p>
+              <p class="mt-3 font-bold text-cyanx">$245 total</p>
+              <p class="mt-1 text-sm font-bold text-cyanx">FREE SHIPPING</p>
+              <a href="https://l1nq.com/nrnyrkw" target="_blank" rel="sponsored noopener" class="mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-cyanx px-5 font-black text-midnight transition hover:bg-white">Claim Best Value</a>
+            </article>
+            <article class="rounded-lg border border-slate-200 p-7">
+              <h3 class="text-2xl font-black">Standard</h3>
+              <p class="mt-2 text-slate-600">3 bottles total</p>
+              <p class="mt-6 text-5xl font-black">$64<span class="text-lg text-slate-500">/bottle</span></p>
+              <p class="mt-3 font-bold text-slate-700">$192 total</p>
+              <p class="mt-1 text-sm font-bold text-slate-500">FREE SHIPPING</p>
+              <a href="https://l1nq.com/nrnyrkw" target="_blank" rel="sponsored noopener" class="mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-full border border-midnight px-5 font-black transition hover:bg-midnight hover:text-white">Select Bundle</a>
+            </article>
+          </div>
+
+          <section class="mt-16 -mx-4 py-24 px-6 bg-[#0B1222] sm:-mx-6 lg:-mx-8" aria-labelledby="root-cause-title">
+            <div class="max-w-4xl mx-auto text-center">
+              <h2 id="root-cause-title" class="text-4xl md:text-5xl font-extrabold mb-8 leading-tight text-white">
+                What Happens If You Keep <span class="text-yellow-500 italic">Ignoring The Root Cause?</span>
+              </h2>
+
+              <div class="space-y-8 text-left">
+                <p class="text-xl text-slate-300 leading-relaxed">
+                  Most people think that "slowing down" is just a part of getting older. They accept the brain fog, the 3 PM crashes, and the stubborn weight as inevitable.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div class="glass p-6 rounded-2xl border border-red-500/20 bg-red-500/5">
+                    <h4 class="text-red-400 font-bold mb-2 flex items-center gap-2">
+                      <span>⚠️</span> Metabolic Decline
+                    </h4>
+                    <p class="text-sm text-slate-400">Ignoring the circadian-metabolic link allows your cellular "engines" to rust, making it harder to burn fat and sustain energy every single year.</p>
+                  </div>
+
+                  <div class="glass p-6 rounded-2xl border border-red-500/20 bg-red-500/5">
+                    <h4 class="text-red-400 font-bold mb-2 flex items-center gap-2">
+                      <span>⚠️</span> Cognitive Drift
+                    </h4>
+                    <p class="text-sm text-slate-400">Untreated brain fog isn't just annoying-it is a sign of neural desync. Over time, "forgetting keys" turns into a permanent loss of professional edge.</p>
+                  </div>
+                </div>
+
+                <p class="text-lg text-slate-300 font-medium border-l-4 border-yellow-500 pl-6 py-2 bg-yellow-500/5">
+                  "The truth is, your body doesn't 'fix itself' while you're under constant metabolic stress. Every day you wait is another day your cellular clock falls further out of sync."
+                </p>
+
+                <div class="text-center pt-10">
+                  <p class="text-white font-bold mb-4">Don't let another day slip away in a fog.</p>
+                  <a href="#pricing" class="text-cyan-400 font-extrabold uppercase tracking-widest hover:text-white transition decoration-cyan-400 underline underline-offset-8">
+                    ↑ Back to Discounted Packages
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="mx-auto mt-16 max-w-3xl" x-data="{ open: 1 }">
+            <h3 class="text-3xl font-black">Frequently Asked Questions</h3>
+            <div class="mt-6 divide-y divide-slate-200 rounded-lg border border-slate-200 bg-white">
+              <div>
+                <button class="flex min-h-14 w-full items-center justify-between px-5 text-left font-black" @click="open = open === 1 ? null : 1" :aria-expanded="open === 1">
+                  How fast does shipping take?
+                  <span class="text-cyan-600" x-text="open === 1 ? '-' : '+'"></span>
+                </button>
+                <div class="px-5 pb-5 text-slate-700" x-show="open === 1">
+                  Most orders ship within 24-48 hours, with delivery timing based on your location and carrier availability.
+                </div>
+              </div>
+              <div>
+                <button class="flex min-h-14 w-full items-center justify-between px-5 text-left font-black" @click="open = open === 2 ? null : 2" :aria-expanded="open === 2">
+                  What does the 60-day guarantee cover?
+                  <span class="text-cyan-600" x-text="open === 2 ? '-' : '+'"></span>
+                </button>
+                <div class="px-5 pb-5 text-slate-700" x-show="open === 2">
+                  Try MetaFlow for a full 60 days. If it is not the right fit, contact support for refund instructions according to the official guarantee terms.
+                </div>
+              </div>
+              <div>
+                <button class="flex min-h-14 w-full items-center justify-between px-5 text-left font-black" @click="open = open === 3 ? null : 3" :aria-expanded="open === 3">
+                  Are the ingredients safe?
+                  <span class="text-cyan-600" x-text="open === 3 ? '-' : '+'"></span>
+                </button>
+                <div class="px-5 pb-5 text-slate-700" x-show="open === 3">
+                  MetaFlow is manufactured with quality standards and third-party lab testing. Consult your healthcare professional before use if pregnant, nursing, taking medication, or managing a medical condition.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-midnight px-4 py-10 text-sm text-slate-300 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="flex flex-col gap-4 border-b border-white/10 pb-8 sm:flex-row sm:items-center sm:justify-between">
+          <p class="text-lg font-black text-white">MetaFlow</p>
+          <div class="flex flex-wrap gap-x-6 gap-y-3">
+            <a href="#pricing" class="hover:text-cyanx">Affiliate Disclosure</a>
+            <a href="#pricing" class="hover:text-cyanx">Privacy Policy</a>
+            <a href="#pricing" class="hover:text-cyanx">Terms of Service</a>
+          </div>
+        </div>
+        <p class="mt-8 leading-7">
+          Affiliate disclosure: This page may earn a commission when you purchase through links on this site. FDA disclaimer: These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Individual results vary.
+        </p>
+      </div>
+    </footer>
+
+    <div
+      class="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-sm rounded-lg border border-cyanx/30 bg-midnight p-4 text-white shadow-glow sm:left-6 sm:right-auto"
+      x-show="showProof"
+      x-transition.opacity.duration.300ms
+      aria-live="polite"
+    >
+      <div class="flex items-start gap-3">
+        <span class="mt-1 h-3 w-3 shrink-0 rounded-full bg-cyanx shadow-glow"></span>
+        <div>
+          <p class="text-sm font-black" x-text="proofItems[proofIndex]">Maya from Austin claimed the 5-bottle bundle</p>
+          <p class="mt-1 text-xs font-bold text-slate-400">Verified purchase just now</p>
+        </div>
+        <button
+          type="button"
+          class="ml-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 text-slate-300 hover:text-white"
+          @click="showProof = false"
+          aria-label="Dismiss purchase notification"
+        >
+          x
+        </button>
+      </div>
+    </div>
+
+    <div id="exit-modal" class="fixed inset-0 z-[200] hidden items-start justify-center px-4 pt-4 md:pt-8">
+      <div class="absolute inset-0 bg-black/85 backdrop-blur-md"></div>
+
+      <div class="relative max-w-2xl w-full p-1 rounded-b-[2.5rem] rounded-t-none bg-gradient-to-r from-red-600 via-yellow-500 to-green-600 shadow-[0_0_50px_rgba(239,68,68,0.5)] animate-pulse">
+        <div class="bg-[#020617] rounded-b-[2.4rem] rounded-t-none p-8 md:p-12 text-center relative overflow-hidden">
+          <button onclick="closeExitModal()" class="absolute top-6 right-6 text-slate-500 hover:text-white transition-all text-3xl font-light" aria-label="Close exit offer">&times;</button>
+
+          <div class="mb-6 inline-block">
+            <svg class="w-20 h-20 text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+          </div>
+
+          <h2 class="text-5xl md:text-6xl font-[900] text-white italic tracking-tighter mb-4 leading-none">
+            WAIT! <br><span class="text-yellow-400">DON'T LEAVE</span>
+          </h2>
+
+          <div class="inline-block border border-slate-700 bg-slate-900/50 rounded-2xl p-6 mb-8 text-left md:text-center w-full">
+            <ul class="text-xl md:text-2xl text-slate-200 font-bold space-y-2">
+              <li>❌ You'll Lose Your VIP Discount</li>
+              <li>❌ You'll Lose Your <span class="text-green-400 underline">FREE Bottle</span></li>
+              <li>❌ You'll Lose Your Bonus Guides</li>
+            </ul>
+          </div>
+
+          <div class="bg-yellow-400/10 border-2 border-dashed border-yellow-400 p-6 rounded-2xl mb-8">
+            <p class="text-slate-300 uppercase tracking-widest text-sm mb-2">Use Coupon Code at Checkout:</p>
+            <span class="text-4xl font-[900] text-yellow-400 tracking-widest">STAY10</span>
+          </div>
+
+          <a href="https://l1nq.com/nrnyrkw" target="_blank" rel="sponsored noopener" class="block w-full py-6 rounded-2xl bg-gradient-to-r from-red-600 to-red-800 text-white font-[900] text-2xl uppercase tracking-tighter shadow-2xl hover:scale-[1.02] transition-transform active:scale-95">
+            Apply My Coupon & Continue
+          </a>
+
+          <p class="mt-6 text-slate-500 text-xs uppercase tracking-widest cursor-pointer hover:text-slate-300" onclick="closeExitModal()">
+            I want to pay full price
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const exitModal = document.getElementById('exit-modal');
+      const exitModalSessionKey = 'metaflowExitModalDismissed';
+
+      function closeExitModal() {
+        if (!exitModal) return;
+        exitModal.classList.add('hidden');
+        exitModal.classList.remove('flex');
+        sessionStorage.setItem(exitModalSessionKey, 'true');
+      }
+
+      function showExitModal() {
+        if (!exitModal || sessionStorage.getItem(exitModalSessionKey) === 'true') return;
+        exitModal.classList.remove('hidden');
+        exitModal.classList.add('flex');
+      }
+
+      function handleExitIntent(event) {
+        const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+        const leftFromTop = event.clientY <= 0 && !event.relatedTarget;
+
+        if (isDesktop && leftFromTop) {
+          showExitModal();
+          document.removeEventListener('mouseout', handleExitIntent);
+        }
+      }
+
+      document.addEventListener('mouseout', handleExitIntent);
+    </script>
+  </body>
+</html>
